@@ -1,9 +1,10 @@
 {
     "name": "contract-checker",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "Decode smart contract behavior in plain English - static analysis engine for EVM contracts",
     "main": "src/index.ts",
     "scripts": {
+        "start": "ts-node src/server.ts",
         "start:web": "ts-node src/server.ts",
         "test": "ts-node tests/benchmark_suite.ts",
         "test:golden": "ts-node tests/golden_test.ts",

@@ -18,7 +18,7 @@
 
     <main class="container">
         <header>
-            <h1>Contract <span class="accent">Checker</span> <small style="font-size: 0.5em; color: #64ffda;">v2.1
+            <h1>Contract <span class="accent">Checker</span> <small style="font-size: 0.5em; color: #64ffda;">v2.2
                     Strict</small></h1>
             <p>Paste a contract address to audit its hidden intent and power.</p>
         </header>
@@ -70,11 +70,32 @@
                         <span>Upgradeability</span>
                         <span id="controlPattern" class="value">...</span>
                     </div>
+                    <div class="info-row">
+                        <span>Admin Pattern</span>
+                        <span id="adminPattern" class="value">...</span>
+                    </div>
                     <div class="info-row"
                         style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
                         <span>Admin Power</span>
                         <span id="adminPower" class="value" style="color: var(--accent-secondary);">...</span>
                     </div>
+                </div>
+            </div>
+
+            <!-- Behavior Card (Cell) -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <i class="ph ph-activity"></i>
+                        <h2>Behavior Analysis</h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span>Incentive Model</span>
+                        <span id="incentiveModel" class="value">...</span>
+                    </div>
+                    <div id="riskFlags" class="tags-container" style="margin-top: 10px;"></div>
                 </div>
             </div>
 

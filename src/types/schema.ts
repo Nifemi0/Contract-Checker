@@ -72,6 +72,7 @@ export const UpgradeabilitySchema = z.object({
 export const ControlsSchema = z.object({
     permissions: z.array(PermissionSchema),
     upgradeability: UpgradeabilitySchema,
+    adminPower: z.enum(['low', 'medium', 'high', 'zero']).optional(),
 });
 
 // -------------------------------------------------------------------------

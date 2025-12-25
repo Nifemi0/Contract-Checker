@@ -8,7 +8,10 @@ const errorMsg = document.getElementById('errorMsg');
 const intentSummary = document.getElementById('intentSummary');
 const behaviorTags = document.getElementById('behaviorTags');
 const controlPattern = document.getElementById('controlPattern');
+const adminPattern = document.getElementById('adminPattern');
 const adminPower = document.getElementById('adminPower');
+const incentiveModel = document.getElementById('incentiveModel');
+const riskFlags = document.getElementById('riskFlags');
 const flowList = document.getElementById('flowList');
 const actorList = document.getElementById('actorList');
 const chainBadge = document.getElementById('chainBadge');
@@ -75,18 +78,33 @@ function renderResults(data) {
 
     // 2. Controls
     controlPattern.textContent = data.controls.upgradeability.pattern;
-    const canUpgrade = data.controls.upgradeability.pattern !== 'none';
-    const canPause = data.controls.permissions.some(p => p.capability === 'pause');
+    adminPattern.textContent = data.controls.upgradeability.adminPattern || 'none';
 
-    let powerText = "Zero";
-    const isCentralized = data.intent.summary.includes("Centralized");
+    // Use engine-calculated admin power
+    const power = data.controls.adminPower || 'zero';
+    adminPower.textContent = power.toUpperCase();
 
-    if (canUpgrade && canPause) powerText = "Absolute God Mode";
-    else if (isCentralized) powerText = "High (Centralized Control)"; // Force High for USDT
-    else if (canUpgrade) powerText = "High (Upgradeable)";
-    else if (canPause) powerText = "Medium (Pausable)";
+    // Color coding for power
+    if (power === 'high') adminPower.style.color = '#ff0055'; // Cyber Pink
+    else if (power === 'medium') adminPower.style.color = '#ffdd00'; // Cyber Yellow
+    else adminPower.style.color = '#00f2ea'; // Cyber Cyan
 
-    adminPower.textContent = powerText;
+    // 2b. Behavior
+    if (data.behavior) {
+        incentiveModel.textContent = data.behavior.incentiveModel;
+        riskFlags.innerHTML = '';
+        data.behavior.riskFlags.forEach(flag => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.style.borderColor = '#ff0055';
+            span.style.color = '#ff0055';
+            span.textContent = flag;
+            riskFlags.appendChild(span);
+        });
+    } else {
+        incentiveModel.textContent = 'unknown';
+        riskFlags.innerHTML = '';
+    }
 
     // 3. Flows
     flowList.innerHTML = '';

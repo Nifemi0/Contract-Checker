@@ -109,7 +109,11 @@ export class ContractCheckerEngine {
         const risks = [];
         if (historicalRisk) risks.push(historicalRisk);
 
-        // 7. Build Result
+        // 7. Calculate Admin Power
+        const adminPower = this.calculateAdminPower(intent, controls);
+        controls.adminPower = adminPower;
+
+        // 8. Build Result
         const result: ContractExplanation = {
             meta: {
                 address,
@@ -144,6 +148,17 @@ export class ContractCheckerEngine {
         const selectors = matches.map(m => '0x' + m.slice(2).toLowerCase()); // Normalize
         console.log("Extracted Selectors:", selectors);
         return selectors;
+    }
+
+    private calculateAdminPower(intent: any, controls: any): 'high' | 'medium' | 'low' | 'zero' {
+        const canUpgrade = controls.upgradeability.pattern !== 'none';
+        const hasPause = controls.permissions.some((p: any) => p.capability === 'pause');
+        const hasBlacklist = controls.permissions.some((p: any) => p.capability === 'blacklist');
+        const hasDelegatecall = controls.permissions.some((p: any) => p.capability === 'delegatecall');
+
+        if (canUpgrade || hasBlacklist || hasDelegatecall) return 'high';
+        if (hasPause || intent.behaviorTags.includes('governance-controlled')) return 'medium';
+        return 'zero';
     }
 }
 
