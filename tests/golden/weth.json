@@ -1,0 +1,50 @@
+{
+    "contract": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "name": "WETH",
+    "chain": "ethereum",
+    "expected": {
+        "intent": {
+            "summary": "Wrap native ETH into an ERC20-compatible token and allow deterministic 1:1 conversion.",
+            "behaviorTags": [
+                "asset-wrapping",
+                "non-upgradeable"
+            ]
+        },
+        "actors": [
+            {
+                "id": "contract",
+                "type": "contract",
+                "description": "The automated logic and custody enforcement"
+            },
+            {
+                "id": "user_any",
+                "type": "user",
+                "description": "Holders who can transfer or interact with the asset"
+            }
+        ],
+        "controls": {
+            "upgradeability": {
+                "pattern": "none"
+            },
+            "permissions": []
+        },
+        "valueFlows": [
+            {
+                "from": "user_any",
+                "to": "contract",
+                "asset": "ETH",
+                "trigger": "deposit",
+                "conditions": []
+            },
+            {
+                "from": "contract",
+                "to": "user_any",
+                "asset": "WETH",
+                "trigger": "withdraw",
+                "conditions": []
+            }
+        ],
+        "risks": [],
+        "adminPower": "zero"
+    }
+}

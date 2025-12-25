@@ -1,0 +1,33 @@
+{
+    "contract": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "name": "USDC",
+    "chain": "ethereum",
+    "expected": {
+        "intent": {
+            "summary": "Upgradeable Proxy Contract (Logic is delegated). Logic can be upgraded by an admin.",
+            "behaviorTags": [
+                "upgradeable",
+                "proxy"
+            ]
+        },
+        "actors": [
+            {
+                "id": "contract",
+                "type": "contract"
+            },
+            {
+                "id": "admin",
+                "type": "admin"
+            }
+        ],
+        "controls": {
+            "upgradeability": {
+                "pattern": "transparent-proxy"
+            },
+            "permissions": []
+        },
+        "valueFlows": [],
+        "risks": [],
+        "adminPower": "high"
+    }
+}

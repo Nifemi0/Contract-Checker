@@ -6,6 +6,7 @@
     "scripts": {
         "start:web": "ts-node src/server.ts",
         "test": "ts-node tests/benchmark_suite.ts",
+        "test:golden": "ts-node tests/golden_test.ts",
         "analyze": "ts-node src/index.ts"
     },
     "keywords": [

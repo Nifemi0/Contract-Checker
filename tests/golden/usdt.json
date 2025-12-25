@@ -1,0 +1,50 @@
+{
+    "contract": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "name": "USDT",
+    "chain": "ethereum",
+    "expected": {
+        "intent": {
+            "summary": "Centralized Token with administrative controls (Pause/Blacklist).",
+            "behaviorTags": [
+                "custody",
+                "governance-controlled"
+            ]
+        },
+        "actors": [
+            {
+                "id": "contract",
+                "type": "contract"
+            },
+            {
+                "id": "user_any",
+                "type": "user"
+            },
+            {
+                "id": "admin",
+                "type": "admin",
+                "description": "Can pause transfers, blacklist, or upgrade logic"
+            }
+        ],
+        "controls": {
+            "upgradeability": {
+                "pattern": "none"
+            },
+            "permissions": [
+                {
+                    "capability": "pause",
+                    "actorId": "admin"
+                }
+            ]
+        },
+        "valueFlows": [
+            {
+                "from": "user_any",
+                "to": "user_any",
+                "asset": "USDT",
+                "trigger": "transfer"
+            }
+        ],
+        "risks": [],
+        "adminPower": "medium"
+    }
+}

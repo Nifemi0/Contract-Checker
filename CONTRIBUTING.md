@@ -1,6 +1,6 @@
 # Contract Checker - Contributing Guide
 
-## 🎯 Project Structure
+## Project Structure
 
 ```
 contract-checker/
@@ -29,7 +29,7 @@ contract-checker/
 4. Run tests: `npm test`
 5. Start dev server: `npm run start:web`
 
-## 🧪 Testing
+## Testing
 
 Run the benchmark suite:
 ```bash

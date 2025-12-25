@@ -1,24 +1,24 @@
-# Contract Checker 🔍
+# Contract Checker
 
-> **Decode smart contract behavior in plain English**
+> Decode smart contract behavior in plain English
 
-A powerful static analysis engine that explains what smart contracts *actually do* - detecting admin powers, value flows, upgradeability patterns, and security risks across 30+ EVM chains.
+A powerful static analysis engine that explains what smart contracts actually do - detecting admin powers, value flows, upgradeability patterns, and security risks across 30+ EVM chains.
 
 ![Version](https://img.shields.io/badge/version-2.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Chains](https://img.shields.io/badge/chains-30%2B%20EVM-purple)
 
-## ✨ Features
+## Features
 
-- 🎯 **Intent Classification** - Identifies contract purpose (wrapper, vault, governance, etc.)
-- 👥 **Actor Detection** - Maps who controls what (admins, users, contracts)
-- 🔐 **Power Analysis** - Detects upgradeability, pause, blacklist, and confiscation capabilities
-- 💸 **Value Flow Mapping** - Traces asset movements (deposits, withdrawals, transfers)
-- 🌐 **Multi-Chain Support** - Scans 30+ EVM chains (Ethereum, Arbitrum, Polygon, BSC, etc.)
-- ⚠️ **Risk Detection** - Checks against known exploited contracts
-- 🎨 **Cyberpunk UI** - Beautiful dark-mode web interface
+- Intent Classification - Identifies contract purpose (wrapper, vault, governance, etc.)
+- Actor Detection - Maps who controls what (admins, users, contracts)
+- Power Analysis - Detects upgradeability, pause, blacklist, and confiscation capabilities
+- Value Flow Mapping - Traces asset movements (deposits, withdrawals, transfers)
+- Multi-Chain Support - Scans 30+ EVM chains (Ethereum, Arbitrum, Polygon, BSC, etc.)
+- Risk Detection - Checks against known exploited contracts
+- Cyberpunk UI - Beautiful dark-mode web interface
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 16+ 
@@ -56,7 +56,7 @@ npx ts-node src/index.ts 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
 npx ts-node benchmark_suite.ts
 ```
 
-## 📊 Example Analysis
+## Example Analysis
 
 **Input:** `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2` (WETH)
 
@@ -82,7 +82,7 @@ npx ts-node benchmark_suite.ts
 }
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Custom RPC Endpoints
 
@@ -94,7 +94,7 @@ RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
 
 **Note:** The engine works perfectly with public RPCs for Ethereum mainnet. For production L2 analysis (Arbitrum, Optimism, etc.), we recommend using paid RPC providers like Alchemy or Infura to avoid rate limits.
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 src/
@@ -118,7 +118,7 @@ public/
 └── app.js                # Frontend logic
 ```
 
-## 🧪 Testing
+## Testing
 
 The project includes a comprehensive benchmark suite testing 19 contracts:
 
@@ -131,11 +131,11 @@ The project includes a comprehensive benchmark suite testing 19 contracts:
 - ✅ All Ethereum mainnet contracts pass
 - ⚠️ L2 contracts limited by public RPC rate limits
 
-## 🌐 Supported Chains
+## Supported Chains
 
 Ethereum, Arbitrum, Optimism, Polygon, Base, BSC, Avalanche, Fantom, Gnosis, Linea, zkSync Era, Polygon zkEVM, Mantle, Scroll, Celo, Moonbeam, Moonriver, Metis, Cronos, Aurora, Boba, Kava, Blast, Mode, Manta, Beam, opBNB, Ronin
 
-## 🛣️ Roadmap
+## Roadmap
 
 - [x] Core analysis engine
 - [x] Multi-chain support (30+ chains)
@@ -146,15 +146,15 @@ Ethereum, Arbitrum, Optimism, Polygon, Base, BSC, Avalanche, Fantom, Gnosis, Lin
 - [ ] ABI verification integration
 - [ ] Historical transaction analysis
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Please open an issue or PR.
 
-## 📄 License
+## License
 
 MIT License - see LICENSE file for details
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 This tool performs **static analysis only**. Always verify contract behavior through:
 - Source code review
@@ -163,7 +163,7 @@ This tool performs **static analysis only**. Always verify contract behavior thr
 
 Not financial advice. DYOR.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built with:
 - [viem](https://viem.sh/) - Ethereum interactions
@@ -172,4 +172,4 @@ Built with:
 
 ---
 
-**Made with 💜 by the DeFi community**
+Made by the DeFi community

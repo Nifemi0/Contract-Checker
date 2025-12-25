@@ -1,0 +1,40 @@
+{
+    "contract": "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+    "name": "SHIB",
+    "chain": "ethereum",
+    "expected": {
+        "intent": {
+            "summary": "Token or Vault contract handling asset transfers.",
+            "behaviorTags": [
+                "custody",
+                "mint-burn"
+            ]
+        },
+        "actors": [
+            {
+                "id": "contract",
+                "type": "contract"
+            },
+            {
+                "id": "user_any",
+                "type": "user"
+            }
+        ],
+        "controls": {
+            "upgradeability": {
+                "pattern": "none"
+            },
+            "permissions": []
+        },
+        "valueFlows": [
+            {
+                "from": "user_any",
+                "to": "user_any",
+                "asset": "SHIB",
+                "trigger": "transfer"
+            }
+        ],
+        "risks": [],
+        "adminPower": "zero"
+    }
+}
