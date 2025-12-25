@@ -45,6 +45,10 @@
             }
         ],
         "risks": [],
-        "adminPower": "zero"
+        "adminPower": "zero",
+        "behavior": {
+            "incentiveModel": "standard",
+            "riskFlags": []
+        }
     }
 }

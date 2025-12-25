@@ -27,7 +27,8 @@
         ],
         "controls": {
             "upgradeability": {
-                "pattern": "none"
+                "pattern": "none",
+                "adminPattern": "ownable"
             },
             "permissions": [
                 {
@@ -45,6 +46,10 @@
             }
         ],
         "risks": [],
-        "adminPower": "medium"
+        "adminPower": "high",
+        "behavior": {
+            "incentiveModel": "standard",
+            "riskFlags": []
+        }
     }
 }

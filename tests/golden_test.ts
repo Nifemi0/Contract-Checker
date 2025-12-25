@@ -19,6 +19,7 @@ interface GoldenTest {
         controls: {
             upgradeability: {
                 pattern: string;
+                adminPattern?: string;
             };
             permissions: Array<{
                 capability: string;
@@ -28,6 +29,10 @@ interface GoldenTest {
         valueFlows: Array<any>;
         risks: Array<any>;
         adminPower: string;
+        behavior?: {
+            incentiveModel: string;
+            riskFlags: string[];
+        };
     };
 }
 
@@ -105,6 +110,10 @@ class GoldenTestRunner {
                 failures.push(`Upgradeability pattern mismatch: expected "${golden.expected.controls.upgradeability.pattern}", got "${actual.controls.upgradeability.pattern}"`);
             }
 
+            if (golden.expected.controls.upgradeability.adminPattern && (actual.controls.upgradeability as any).adminPattern !== golden.expected.controls.upgradeability.adminPattern) {
+                failures.push(`Admin pattern mismatch: expected "${golden.expected.controls.upgradeability.adminPattern}", got "${(actual.controls.upgradeability as any).adminPattern}"`);
+            }
+
             for (const expectedPerm of golden.expected.controls.permissions) {
                 const found = actual.controls.permissions.find(
                     p => p.capability === expectedPerm.capability
@@ -117,6 +126,17 @@ class GoldenTestRunner {
             const adminPower = this.calculateAdminPower(actual);
             if (adminPower !== golden.expected.adminPower) {
                 failures.push(`Admin power mismatch: expected "${golden.expected.adminPower}", got "${adminPower}"`);
+            }
+
+            if (golden.expected.behavior) {
+                if (actual.behavior?.incentiveModel !== golden.expected.behavior.incentiveModel) {
+                    failures.push(`Incentive model mismatch: expected "${golden.expected.behavior.incentiveModel}", got "${actual.behavior?.incentiveModel}"`);
+                }
+                for (const flag of golden.expected.behavior.riskFlags) {
+                    if (!actual.behavior?.riskFlags.includes(flag)) {
+                        failures.push(`Missing risk flag: ${flag}`);
+                    }
+                }
             }
 
         } catch (e: any) {

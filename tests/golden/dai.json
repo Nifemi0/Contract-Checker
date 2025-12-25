@@ -26,7 +26,8 @@
         ],
         "controls": {
             "upgradeability": {
-                "pattern": "none"
+                "pattern": "none",
+                "adminPattern": "custom"
             },
             "permissions": []
         },
@@ -39,6 +40,10 @@
             }
         ],
         "risks": [],
-        "adminPower": "medium"
+        "adminPower": "medium",
+        "behavior": {
+            "incentiveModel": "standard",
+            "riskFlags": []
+        }
     }
 }

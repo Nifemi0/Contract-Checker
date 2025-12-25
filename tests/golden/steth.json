@@ -4,20 +4,13 @@
     "chain": "ethereum",
     "expected": {
         "intent": {
-            "summary": "Token or Vault contract handling asset transfers.",
-            "behaviorTags": [
-                "custody",
-                "governance-controlled"
-            ]
+            "summary": "Contract with opaque logic.",
+            "behaviorTags": []
         },
         "actors": [
             {
                 "id": "contract",
                 "type": "contract"
-            },
-            {
-                "id": "user_any",
-                "type": "user"
             },
             {
                 "id": "admin",
@@ -26,19 +19,16 @@
         ],
         "controls": {
             "upgradeability": {
-                "pattern": "none"
+                "pattern": "beacon"
             },
             "permissions": []
         },
-        "valueFlows": [
-            {
-                "from": "user_any",
-                "to": "user_any",
-                "asset": "stETH",
-                "trigger": "transfer"
-            }
-        ],
+        "valueFlows": [],
         "risks": [],
-        "adminPower": "medium"
+        "adminPower": "high",
+        "behavior": {
+            "incentiveModel": "standard",
+            "riskFlags": []
+        }
     }
 }

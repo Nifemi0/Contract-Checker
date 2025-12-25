@@ -5,6 +5,7 @@ import { ControlMap } from './lib/classifiers/control_map';
 import { FlowEngine } from './lib/flow_engine';
 import { ChainScanner } from './lib/chain_scanner';
 import { RiskFetcher } from './lib/risk_fetcher';
+import { BehaviorClassifier } from './lib/classifiers/behavior_classifier';
 import { ContractExplanation, ContractExplanationSchema } from './types/schema';
 import * as dotenv from 'dotenv';
 
@@ -18,6 +19,7 @@ export class ContractCheckerEngine {
     private flowEngine: FlowEngine;
     private chainScanner: ChainScanner;
     private riskFetcher: RiskFetcher;
+    private behaviorClassifier: BehaviorClassifier;
 
     constructor(rpcUrl?: string) {
         this.fetcher = new ContractFetcher(rpcUrl);
@@ -27,6 +29,7 @@ export class ContractCheckerEngine {
         this.flowEngine = new FlowEngine();
         this.chainScanner = new ChainScanner();
         this.riskFetcher = new RiskFetcher();
+        this.behaviorClassifier = new BehaviorClassifier();
     }
 
     async analyze(address: string): Promise<ContractExplanation> {
@@ -63,6 +66,7 @@ export class ContractCheckerEngine {
         // 3. Classify Behavior
         const intent = this.intentClassifier.classify(data.bytecode, functionSelectors);
         const controls = this.controlMap.detect(data.bytecode, functionSelectors);
+        const behavior = this.behaviorClassifier.analyze(data.bytecode, functionSelectors);
 
         // 4. Detect Actors
         // 4. Detect Actors (Refined)
@@ -121,6 +125,7 @@ export class ContractCheckerEngine {
             valueFlows: flows,
             risks,
             beneficiaries: [],
+            behavior,
             confidence: {
                 score: historicalRisk ? 0.1 : 0.5,
                 limitations: ['Static analysis only', 'No storage inspection']

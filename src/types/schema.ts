@@ -26,7 +26,10 @@ export const IntentSchema = z.object({
         'governance-controlled',
         'mint-burn',
         'proxy', // NEW
-        'external-dependency'
+        'external-dependency',
+        'fee-on-transfer', // NEW
+        'rebasing', // NEW
+        'reflection' // NEW
     ])).describe("Controlled vocabulary."),
 });
 
@@ -63,6 +66,7 @@ export const UpgradeabilitySchema = z.object({
     upgradeAuthority: z.string().nullable().describe("Actor ID of who can upgrade"),
     timelockSeconds: z.number().nullable(),
     upgradeHistoryCount: z.number(),
+    adminPattern: z.enum(['ownable', 'access-control', 'multisig', 'timelock', 'custom', 'none']).optional()
 });
 
 export const ControlsSchema = z.object({
@@ -114,6 +118,15 @@ export const ConfidenceSchema = z.object({
 });
 
 // -------------------------------------------------------------------------
+// 10. Behavior
+// -------------------------------------------------------------------------
+export const BehaviorAnalysisSchema = z.object({
+    incentiveModel: z.enum(['standard', 'fee-on-transfer', 'rebasing', 'reflection', 'unknown']),
+    riskFlags: z.array(z.string()),
+    beneficiaries: z.array(z.string()), // Actor IDs
+});
+
+// -------------------------------------------------------------------------
 // 1. Root Object: ContractExplanation
 // -------------------------------------------------------------------------
 export const ContractExplanationSchema = z.object({
@@ -124,6 +137,7 @@ export const ContractExplanationSchema = z.object({
     valueFlows: z.array(ValueFlowSchema),
     risks: z.array(RiskSchema),
     beneficiaries: z.array(BeneficiarySchema),
+    behavior: BehaviorAnalysisSchema.optional(), // NEW
     confidence: ConfidenceSchema,
 });
 

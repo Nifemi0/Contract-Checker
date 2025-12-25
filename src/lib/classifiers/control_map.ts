@@ -24,9 +24,11 @@ export class ControlMap {
         const proxyPattern = this.detectProxyPattern(bytecode, functionSelectors);
         upgradePattern = proxyPattern;
 
-        // 1b. Detect Delegatecall (Security Risk)
+        // 1b. Detect Delegatecall (Security Risk) - Only flag if NOT a proxy
+        // Proxies legitimately use delegatecall, so we only flag it as suspicious in non-proxy contracts
         const hasDelegatecall = this.detectDelegatecall(bytecode);
-        if (hasDelegatecall) {
+        if (hasDelegatecall && proxyPattern === 'none') {
+            // Delegatecall in a non-proxy contract is a security risk
             permissions.push({
                 capability: 'delegatecall',
                 actorId: 'admin',
@@ -85,9 +87,41 @@ export class ControlMap {
                 pattern: upgradePattern,
                 upgradeAuthority: upgradePattern !== 'none' ? 'owner_unknown' : null,
                 timelockSeconds: null, // Hard to detect without decoding storage/constructor
-                upgradeHistoryCount: 0
+                upgradeHistoryCount: 0,
+                adminPattern: this.detectAdminPattern(functionSelectors)
             }
         };
+    }
+
+    private detectAdminPattern(functionSelectors: string[]): 'ownable' | 'access-control' | 'multisig' | 'timelock' | 'custom' | 'none' {
+        // AccessControl (OpenZeppelin) - hasRole, getRoleAdmin
+        if (functionSelectors.includes('0x91d14854') || functionSelectors.includes('0x248a9ca3')) {
+            return 'access-control';
+        }
+
+        // MultiSig (Gnosis Safe) - getOwners, getThreshold
+        if (functionSelectors.includes('0xa0e67e2b') && functionSelectors.includes('0xe75235b8')) {
+            return 'multisig';
+        }
+
+        // Timelock (Compound) - delay, queuedTransactions
+        if (functionSelectors.includes('0x6a42b8f8') || functionSelectors.includes('0xf2b06537')) {
+            return 'timelock';
+        }
+
+        // Governance-controlled (DAI/Maker style: rely/deny)
+        // rely(address) - 0x65fae35e, deny(address) - 0x9c52a7f1
+        if (functionSelectors.includes('0x65fae35e') && functionSelectors.includes('0x9c52a7f1')) {
+            return 'custom'; // Or maybe 'governance' if we add it to the enum
+        }
+
+        // Standard Ownable - owner()
+        // OR Proxy Admin - admin() (0x4f1ef286) 
+        if (functionSelectors.includes('0x8da5cb5b') || functionSelectors.includes('0x4f1ef286')) {
+            return 'ownable';
+        }
+
+        return 'none';
     }
 
     private detectProxyPattern(
@@ -130,8 +164,26 @@ export class ControlMap {
     }
 
     private detectDelegatecall(bytecode: string): boolean {
-        // Disabled for MVP - simple pattern matching has too many false positives
-        // Requires proper EVM disassembly to distinguish opcodes from data
+        // DELEGATECALL opcode is 0xF4
+        // Improved heuristic: look for f4 in likely opcode positions
+        // This is still not perfect but reduces false positives significantly
+
+        const code = bytecode.toLowerCase();
+
+        // Pattern 1: f4 followed by common stack operations
+        // DELEGATECALL is often followed by ISZERO (15), PUSH (60-7f), or DUP (80-8f)
+        const delegatecallPatterns = [
+            'f415', // DELEGATECALL + ISZERO
+            'f460', 'f461', 'f462', // DELEGATECALL + PUSH
+            'f480', 'f481', 'f482', // DELEGATECALL + DUP
+        ];
+
+        for (const pattern of delegatecallPatterns) {
+            if (code.includes(pattern)) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

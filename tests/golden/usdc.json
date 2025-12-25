@@ -22,12 +22,17 @@
         ],
         "controls": {
             "upgradeability": {
-                "pattern": "beacon"
+                "pattern": "beacon",
+                "adminPattern": "ownable"
             },
             "permissions": []
         },
         "valueFlows": [],
         "risks": [],
-        "adminPower": "high"
+        "adminPower": "high",
+        "behavior": {
+            "incentiveModel": "standard",
+            "riskFlags": []
+        }
     }
 }
