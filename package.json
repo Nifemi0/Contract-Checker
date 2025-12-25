@@ -1,0 +1,38 @@
+{
+    "name": "contract-checker",
+    "version": "2.1.0",
+    "description": "Decode smart contract behavior in plain English - static analysis engine for EVM contracts",
+    "main": "src/index.ts",
+    "scripts": {
+        "start:web": "ts-node src/server.ts",
+        "test": "ts-node tests/benchmark_suite.ts",
+        "analyze": "ts-node src/index.ts"
+    },
+    "keywords": [
+        "ethereum",
+        "smart-contracts",
+        "defi",
+        "security",
+        "static-analysis",
+        "web3"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "viem": "^2.43.3",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.10.5",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.3"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}

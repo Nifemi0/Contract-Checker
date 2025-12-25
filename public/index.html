@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Checker | Intent Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+    <div class="background-globes"></div>
+
+    <main class="container">
+        <header>
+            <h1>Contract <span class="accent">Checker</span> <small style="font-size: 0.5em; color: #64ffda;">v2.1
+                    Strict</small></h1>
+            <p>Paste a contract address to audit its hidden intent and power.</p>
+        </header>
+
+        <section class="search-section">
+            <div class="input-group glass-panel">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" id="addressInput" placeholder="Paste contract address (0x...)" autocomplete="off">
+                <button id="analyzeBtn">Analyze</button>
+            </div>
+            <p id="errorMsg" class="error-msg hidden"></p>
+        </section>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Decompiling & Analyzing...</p>
+        </div>
+
+        <section id="results" class="results-section hidden">
+            <!-- Intent Card (Full Width) -->
+            <div class="card intent-card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <i class="ph ph-lightning"></i>
+                        <h2>Contract Intent</h2>
+                    </div>
+                    <div>
+                        <span id="chainBadge" class="chain-badge hidden">ETH</span>
+                        <span id="riskBadge" class="risk-badge hidden">RISK</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p id="intentSummary" class="big-text" style="font-size: 1.25rem; line-height: 1.5; color: #fff;">
+                        ...</p>
+                    <div id="behaviorTags" class="tags-container"></div>
+                </div>
+            </div>
+
+            <!-- Controls Card (Cell) -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <i class="ph ph-lock-key"></i>
+                        <h2>Admin Controls</h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span>Upgradeability</span>
+                        <span id="controlPattern" class="value">...</span>
+                    </div>
+                    <div class="info-row"
+                        style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                        <span>Admin Power</span>
+                        <span id="adminPower" class="value" style="color: var(--accent-secondary);">...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Value Flow Card (Cell) -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <i class="ph ph-arrows-left-right"></i>
+                        <h2>Value Flows</h2>
+                    </div>
+                </div>
+                <div class="card-body" id="flowList">
+                </div>
+            </div>
+
+            <!-- Actors Card (Full Width) -->
+            <div class="card actors-card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <i class="ph ph-users"></i>
+                        <h2>Participating Actors</h2>
+                    </div>
+                </div>
+                <div class="card-body" id="actorList"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
