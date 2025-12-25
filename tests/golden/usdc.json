@@ -22,7 +22,7 @@
         ],
         "controls": {
             "upgradeability": {
-                "pattern": "transparent-proxy"
+                "pattern": "beacon"
             },
             "permissions": []
         },

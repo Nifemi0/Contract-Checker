@@ -20,10 +20,19 @@ export class ControlMap {
         const permissions: z.infer<typeof ControlsSchema>['permissions'] = [];
         let upgradePattern: z.infer<typeof ControlsSchema>['upgradeability']['pattern'] = 'none';
 
-        // 1. Detect Upgradeability
-        if (functionSelectors.includes(sigs.upgradeTo)) {
-            // Primitive check. Real check needs to distinguish UUPS vs Transparent vs Beacon
-            upgradePattern = 'transparent-proxy';
+        // 1. Detect Proxy Patterns (Advanced)
+        const proxyPattern = this.detectProxyPattern(bytecode, functionSelectors);
+        upgradePattern = proxyPattern;
+
+        // 1b. Detect Delegatecall (Security Risk)
+        const hasDelegatecall = this.detectDelegatecall(bytecode);
+        if (hasDelegatecall) {
+            permissions.push({
+                capability: 'delegatecall',
+                actorId: 'admin',
+                scope: 'global',
+                revocable: false
+            });
         }
 
         // 2. Detect Permissions (Ownable)
@@ -79,5 +88,50 @@ export class ControlMap {
                 upgradeHistoryCount: 0
             }
         };
+    }
+
+    private detectProxyPattern(
+        bytecode: string,
+        functionSelectors: string[]
+    ): 'none' | 'transparent-proxy' | 'uups' | 'beacon' | 'diamond' | 'minimal-proxy' {
+
+        // Check UUPS (EIP-1822)
+        // proxiableUUID() - 0x52d1902d
+        if (functionSelectors.includes('0x52d1902d')) {
+            return 'uups';
+        }
+
+        // Check Beacon Proxy
+        // implementation() - 0x5c60da1b
+        if (functionSelectors.includes('0x5c60da1b')) {
+            return 'beacon';
+        }
+
+        // Check Diamond (EIP-2535)
+        // facets() - 0x7a0ed627
+        // facetAddress(bytes4) - 0xcdffacc6
+        if (functionSelectors.includes('0x7a0ed627') || functionSelectors.includes('0xcdffacc6')) {
+            return 'diamond';
+        }
+
+        // Check Minimal Proxy (EIP-1167)
+        // Bytecode pattern: 363d3d373d3d3d363d73[address]5af43d82803e903d91602b57fd5bf3
+        if (bytecode.includes('363d3d373d3d3d363d73') && bytecode.includes('5af43d82803e903d91602b57fd5bf3')) {
+            return 'minimal-proxy';
+        }
+
+        // Check Transparent Proxy (existing)
+        // upgradeTo(address) - 0x3659cfe6
+        if (functionSelectors.includes('0x3659cfe6')) {
+            return 'transparent-proxy';
+        }
+
+        return 'none';
+    }
+
+    private detectDelegatecall(bytecode: string): boolean {
+        // Disabled for MVP - simple pattern matching has too many false positives
+        // Requires proper EVM disassembly to distinguish opcodes from data
+        return false;
     }
 }

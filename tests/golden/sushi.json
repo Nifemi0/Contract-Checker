@@ -1,0 +1,44 @@
+{
+    "contract": "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
+    "name": "SUSHI (Fee-on-Transfer)",
+    "chain": "ethereum",
+    "expected": {
+        "intent": {
+            "summary": "Token or Vault contract handling asset transfers.",
+            "behaviorTags": [
+                "custody",
+                "governance-controlled"
+            ]
+        },
+        "actors": [
+            {
+                "id": "contract",
+                "type": "contract"
+            },
+            {
+                "id": "user_any",
+                "type": "user"
+            },
+            {
+                "id": "admin",
+                "type": "admin"
+            }
+        ],
+        "controls": {
+            "upgradeability": {
+                "pattern": "none"
+            },
+            "permissions": []
+        },
+        "valueFlows": [
+            {
+                "from": "user_any",
+                "to": "user_any",
+                "asset": "SUSHI",
+                "trigger": "transfer"
+            }
+        ],
+        "risks": [],
+        "adminPower": "medium"
+    }
+}

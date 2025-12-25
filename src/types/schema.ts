@@ -53,13 +53,13 @@ export const ActorSchema = z.object({
 // -------------------------------------------------------------------------
 export const PermissionSchema = z.object({
     actorId: z.string(),
-    capability: z.enum(['pause', 'upgrade', 'set-fees', 'mint', 'seize', 'redirect', 'blacklist']),
+    capability: z.enum(['pause', 'upgrade', 'set-fees', 'mint', 'seize', 'redirect', 'blacklist', 'delegatecall']),
     scope: z.string().optional(),
     revocable: z.boolean(),
 });
 
 export const UpgradeabilitySchema = z.object({
-    pattern: z.enum(['none', 'transparent-proxy', 'uups', 'beacon', 'diamond']),
+    pattern: z.enum(['none', 'transparent-proxy', 'uups', 'beacon', 'diamond', 'minimal-proxy']),
     upgradeAuthority: z.string().nullable().describe("Actor ID of who can upgrade"),
     timelockSeconds: z.number().nullable(),
     upgradeHistoryCount: z.number(),

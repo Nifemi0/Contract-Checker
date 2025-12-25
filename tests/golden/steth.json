@@ -1,0 +1,44 @@
+{
+    "contract": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+    "name": "Lido stETH",
+    "chain": "ethereum",
+    "expected": {
+        "intent": {
+            "summary": "Token or Vault contract handling asset transfers.",
+            "behaviorTags": [
+                "custody",
+                "governance-controlled"
+            ]
+        },
+        "actors": [
+            {
+                "id": "contract",
+                "type": "contract"
+            },
+            {
+                "id": "user_any",
+                "type": "user"
+            },
+            {
+                "id": "admin",
+                "type": "admin"
+            }
+        ],
+        "controls": {
+            "upgradeability": {
+                "pattern": "none"
+            },
+            "permissions": []
+        },
+        "valueFlows": [
+            {
+                "from": "user_any",
+                "to": "user_any",
+                "asset": "stETH",
+                "trigger": "transfer"
+            }
+        ],
+        "risks": [],
+        "adminPower": "medium"
+    }
+}

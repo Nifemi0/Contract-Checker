@@ -134,8 +134,9 @@ class GoldenTestRunner {
         const canUpgrade = result.controls.upgradeability.pattern !== 'none';
         const hasPause = result.controls.permissions.some((p: any) => p.capability === 'pause');
         const hasBlacklist = result.controls.permissions.some((p: any) => p.capability === 'blacklist');
+        const hasDelegatecall = result.controls.permissions.some((p: any) => p.capability === 'delegatecall');
 
-        if (canUpgrade || hasBlacklist) return 'high';
+        if (canUpgrade || hasBlacklist || hasDelegatecall) return 'high';
         if (hasPause || result.intent.behaviorTags.includes('governance-controlled')) return 'medium';
         return 'zero';
     }
